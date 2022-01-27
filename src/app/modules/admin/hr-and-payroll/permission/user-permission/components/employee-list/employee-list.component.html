@@ -1,0 +1,73 @@
+<table class="w-full min-w-320 table-fixed bg-transparent" 
+    mat-table 
+    [dataSource]="dataSources | async"
+    [multiTemplateDataRows]="true"
+    [trackBy]="trackByFn">
+
+    <!-- ID-->
+    <ng-container matColumnDef="id">
+        <th class="w-80  bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef>
+            Employee Id
+        </th>
+        <td class="" mat-cell *matCellDef="let element">
+            <div class="flex items-center">
+                <span class="truncate">{{element?.employee_id}}</span>
+            </div>
+        </td>
+    </ng-container>
+
+    <!-- NAME -->
+    <ng-container matColumnDef="name">
+        <th class="w-80  bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef>
+            Full Name
+        </th>
+        <td class="hover:cursor-pointer" mat-cell *matCellDef="let element" (click)="toggleDetails(element.id)">
+            <div class="flex items-center">
+                <span class="truncate">{{element?.full_name}}</span>
+            </div>
+        </td>
+    </ng-container>
+
+   
+
+    <!-- STATUS-->
+    <ng-container matColumnDef="status">
+        <th class="bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef>
+            Status
+        </th>
+        <td class="pr-4" mat-cell *matCellDef="let element">
+            <mat-icon class="text-green-400 icon-size-5" *ngIf="element.status" [svgIcon]="'heroicons_solid:check'">
+            </mat-icon>
+            <mat-icon class="text-red-500 icon-size-5" *ngIf="!element.status" [svgIcon]="'heroicons_solid:x'">
+            </mat-icon>
+        </td>
+    </ng-container>
+
+    <!-- Actions -->
+    <ng-container matColumnDef="actions">
+        <th class="w-36 pr-8 bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef></th>
+        <td class="pr-8" mat-cell *matCellDef="let element">
+            <section class="flex flex-row gap-2">
+                
+                <button
+                    class="w-15 h-7 rounded-full leading-6 p-0 bg-green-400 flex justify-center items-center hover:bg-red-300"
+                    (click)="handleMoreInfoOperation(element)">
+                    <mat-icon class="icon-size-4 text-white" svgIcon="info"></mat-icon>
+                </button>
+            </section>
+        </td>
+    </ng-container>
+
+
+
+
+
+    <tr class="shadow" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr class="h-18 hover:bg-hover" mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
+
+</table>
+
+
+
+
+<!-- @Partials -->

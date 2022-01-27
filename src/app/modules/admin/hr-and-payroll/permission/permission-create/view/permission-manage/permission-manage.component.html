@@ -1,0 +1,335 @@
+<section class="absolute inset-0 flex flex-col min-w-0 overflow-hidden bg-card dark:bg-transparent">
+    <!-- @Header -->
+    <header (openCreateModal)='handleCreateModal()'
+        [isLoading]="(dataLoading$ | async)">
+    </header>
+
+
+    <main class="flex flex-auto overflow-hidden">
+        <div class="flex flex-col flex-auto sm:mb-18 cdkScrollable overflow-y-auto sm:overflow-y-auto">
+            <ng-container *ngIf="(dataSource$ | async)?.length;else noEntitiy">
+                <!-- @Permission List -->
+                <app-permission-list [dataSources]="(dataSource$)" (edit)="handleEdit($event)"
+                    (delete)="handleDeleteModal($event)"></app-permission-list>
+
+            </ng-container>
+
+            <!-- @No Data Found Section -->
+            <ng-template #noEntitiy>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">There are no
+                    data!</div>
+            </ng-template>
+
+        </div>
+    </main>
+
+
+</section>
+
+
+
+<!-- @Partials -->
+
+<!-- Permission CREATE FORM -->
+<ng-template #createForm>
+    <section>
+        <!-- Header` -->
+        <h2 mat-dialog-title>Permission Details</h2>
+        <!-- Body`` -->
+        <mat-dialog-content class="mat-typography">
+            <form class="flex flex-row w-full" [formGroup]="formInstance">
+                <div class="w-full">
+                    <div class="flex gap-2 w-full">
+
+                        <!-- Name` -->
+                        <mat-form-field class="w-full">
+                            <mat-label>Name</mat-label>
+                            <input matInput [formControlName]="'name'">
+                        </mat-form-field>
+
+                    </div>
+                    <div class="flex gap-2 w-full">
+
+                        <!-- Action` -->
+                        <mat-form-field class="w-full">
+                            <mat-label>Action</mat-label>
+                            <input matInput [formControlName]="'action'">
+                        </mat-form-field>
+
+                    </div>
+                    <div class="flex gap-2 w-full">
+
+                        <!-- Module` -->
+                        <mat-form-field class="w-full">
+                            <mat-label>Module</mat-label>
+                            <input matInput [formControlName]="'module'">
+                        </mat-form-field>
+
+                    </div>
+                    <div class="flex gap-2 w-full">
+
+                        <!-- Sub Module` -->
+                        <mat-form-field class="w-full">
+                            <mat-label>Sub Module</mat-label>
+                            <input matInput [formControlName]="'sub_module'">
+                        </mat-form-field>
+
+                    </div>
+                    <div class="flex gap-2 w-full">
+
+                        <!-- Child` -->
+                        <mat-form-field class="w-full">
+                            <mat-label>Child</mat-label>
+                            <input matInput [formControlName]="'child'">
+                        </mat-form-field>
+
+                    </div>
+
+                </div>
+            </form>
+        </mat-dialog-content>
+
+        <!-- Action -->
+        <mat-dialog-actions align="end">
+            <button mat-button mat-dialog-close (click)="onCancel()">CANCEL</button>
+            <button mat-flat-button [color]="'primary'" (click)="handleSavingOperation()"
+                [disabled]="!formInstance.valid || (btnloader$ | async)"><span>SAVE</span>
+                <btn-loader *ngIf="(btnloader$ | async)"></btn-loader>
+            </button>
+        </mat-dialog-actions>
+    </section>
+</ng-template>
+
+
+<!-- DELETE ALERT -->
+<ng-template #confirmationModal>
+    <div class="flex flex-col w-full h-full">
+
+        <div class="flex flex-col sm:flex-row flex-auto items-center sm:items-start ">
+            <div
+                class="flex flex-0 items-center justify-center w-10 h-10 sm:mr-4 rounded-full text-warn-600 bg-warn-100 dark:text-warn-50 dark:bg-warn-600">
+                <mat-icon svgIcon="heroicons_outline:exclamation" color="warn"></mat-icon>
+            </div>
+            <div
+                class="flex flex-col items-center sm:items-start mt-4 sm:mt-0 sm:pr-8 space-y-1 text-center sm:text-left ng-star-inserted">
+                <div class="text-xl leading-6 font-medium ng-star-inserted">Remove entity</div>
+
+                <div class="text-secondary ng-star-inserted">Are you sure you want to remove this entity permanently?
+                    <span class="font-medium">This action cannot be undone!</span>
+                </div>
+            </div>
+        </div>
+
+        <div
+            class="flex items-center justify-center sm:justify-end px-3 py-4 space-x-3 bg-gray-50 dark:bg-black dark:bg-opacity-10 left-0 bottom-0 right-0">
+            <button mat-stroked-button mat-dialog-close>Cancel</button>
+            <button mat-flat-button color="warn" cdkFocusInitial (click)="handleSavingOperation()">
+                <span>Remove</span>
+                <btn-loader *ngIf="(btnloader$ | async)"></btn-loader>
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #filterForm>
+    <!-- Header` -->
+    <h2 mat-dialog-title>Filter Permission Data</h2>
+    <!-- Body`` -->
+    <mat-dialog-content class="mat-typography">
+        <form class="flex flex-row w-full" [formGroup]="filterFormInstance">
+            <div class="w-full">
+                <div class="flex gap-2 w-full">
+                    <div class="flex flex-col w-8/12">
+                        <!-- Name` -->
+                        <mat-form-field class="w-full">
+                            <mat-label>Employee Name / ID</mat-label>
+                            <input matInput [formControlName]="'name_id'">
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col w-4/12">
+                        <mat-label>Status</mat-label>
+                        <mat-radio-group color="primary" class="pt-3" aria-label="Select an option" [formControlName]="'status'">
+                            <mat-radio-button value="active">Active</mat-radio-button>
+                            <mat-radio-button value="inactive">Inactive</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                </div>
+                <div class="flex gap-2 w-full">
+                    <div class="flex flex-col w-4/12">
+                        <!-- Company List -->
+                        <mat-form-field class="w-full">
+                            <mat-label>Company</mat-label>
+                            <mat-select [formControlName]="'company_id'"
+                                (selectionChange)="onChangeOption('company_id')">
+                                <ng-container *ngIf="(companyList$ | async)?.length">
+                                    <mat-option *ngFor="let company of companyList$ | async" [value]="company.id">
+                                        {{company.name}}
+                                    </mat-option>
+                                </ng-container>
+
+                                <ng-container *ngIf="!(companyList$ | async)?.length">
+                                    <mat-option>No Data</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <!-- Location List -->
+                        <mat-form-field class="w-full">
+                            <mat-label>Location</mat-label>
+                            <mat-select [formControlName]="'location_id'"
+                                (selectionChange)="onChangeLocationOption('location_id')">
+                                <ng-container *ngIf="(locationList$ | async)?.length">
+                                    <mat-option *ngFor="let location of locationList$ | async" [value]="location.id">
+                                        {{location.name}}
+                                    </mat-option>
+                                </ng-container>
+
+                                <ng-container *ngIf="!(locationList$ | async)?.length">
+                                    <mat-option>No Data</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <!-- Unit List -->
+                        <mat-form-field class="w-full">
+                            <mat-label>Unit</mat-label>
+                            <mat-select [formControlName]="'unit_id'" (selectionChange)="onChangeUnitOption('unit_id')">
+                                <ng-container *ngIf="(unitList$ | async)?.length">
+                                    <mat-option *ngFor="let unit of unitList$ | async" [value]="unit.id">
+                                        {{unit.name}}
+                                    </mat-option>
+                                </ng-container>
+
+                                <ng-container *ngIf="!(unitList$ | async)?.length">
+                                    <mat-option>No Data</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+
+
+                    </div>
+                    <div class="flex flex-col w-4/12">
+                        <!-- Division List -->
+                        <mat-form-field class="w-full">
+                            <mat-label>Division</mat-label>
+                            <mat-select [formControlName]="'division_id'"
+                                (selectionChange)="onChangeDivisionOption('division_id')">
+                                <ng-container *ngIf="(divisionList$ | async)?.length">
+                                    <mat-option *ngFor="let division of divisionList$ | async" [value]="division.id">
+                                        {{division.name}}
+                                    </mat-option>
+                                </ng-container>
+
+                                <ng-container *ngIf="!(divisionList$ | async)?.length">
+                                    <mat-option>No Data</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+
+
+                        <!-- Department List -->
+                        <mat-form-field class="w-full">
+                            <mat-label>Department</mat-label>
+                            <mat-select [formControlName]="'department_id'">
+                                <ng-container *ngIf="(departmentList$ | async)?.length">
+                                    <mat-option *ngFor="let department of departmentList$ | async"
+                                        [value]="department.id">
+                                        {{department.name}}
+                                    </mat-option>
+                                </ng-container>
+
+                                <ng-container *ngIf="!(departmentList$ | async)?.length">
+                                    <mat-option>No Data</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <!-- section_id List -->
+                        <mat-form-field class="w-full">
+                            <mat-label>Section</mat-label>
+                            <mat-select [formControlName]="'section_id'">
+                                <ng-container *ngIf="(departmentList$ | async)?.length">
+                                    <mat-option *ngFor="let department of departmentList$ | async"
+                                        [value]="department.id">
+                                        {{department.name}}
+                                    </mat-option>
+                                </ng-container>
+
+                                <ng-container *ngIf="!(departmentList$ | async)?.length">
+                                    <mat-option>No Data</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col w-4/12">
+
+                        <!-- sub_section_id List -->
+                        <mat-form-field class="w-full">
+                            <mat-label>Sub Section</mat-label>
+                            <mat-select [formControlName]="'sub_section_id'">
+                                <ng-container *ngIf="(departmentList$ | async)?.length">
+                                    <mat-option *ngFor="let department of departmentList$ | async"
+                                        [value]="department.id">
+                                        {{department.name}}
+                                    </mat-option>
+                                </ng-container>
+
+                                <ng-container *ngIf="!(departmentList$ | async)?.length">
+                                    <mat-option>No Data</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+
+
+                        <!-- designation_group_id List -->
+                        <mat-form-field class="w-full">
+                            <mat-label>Designation</mat-label>
+                            <mat-select [formControlName]="'designation_group_id'">
+                                <ng-container *ngIf="(departmentList$ | async)?.length">
+                                    <mat-option *ngFor="let department of departmentList$ | async"
+                                        [value]="department.id">
+                                        {{department.name}}
+                                    </mat-option>
+                                </ng-container>
+
+                                <ng-container *ngIf="!(departmentList$ | async)?.length">
+                                    <mat-option>No Data</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+
+
+                        <!-- designation_group_id List -->
+                        <mat-form-field class="w-full">
+                            <mat-label>Designation Group</mat-label>
+                            <mat-select [formControlName]="'designation_group_id'">
+                                <ng-container *ngIf="(departmentList$ | async)?.length">
+                                    <mat-option *ngFor="let department of departmentList$ | async"
+                                        [value]="department.id">
+                                        {{department.name}}
+                                    </mat-option>
+                                </ng-container>
+
+                                <ng-container *ngIf="!(departmentList$ | async)?.length">
+                                    <mat-option>No Data</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </form>
+    </mat-dialog-content>
+
+    <!-- Action -->
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close (click)="onCancel()">CANCEL</button>
+        <button mat-flat-button [color]="'primary'"><span>Get Filtered Data</span>
+            <btn-loader *ngIf="isLoading"></btn-loader>
+        </button>
+    </mat-dialog-actions>
+</ng-template>

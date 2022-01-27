@@ -1,0 +1,26 @@
+<section class="absolute inset-0 flex flex-col min-w-0 overflow-hidden bg-card dark:bg-transparent">
+    <!-- @Header -->
+    <header [isLoading]="(dataLoading$ | async)">
+    </header>
+
+
+    <main class="flex flex-auto overflow-hidden">
+        <div class="flex flex-col flex-auto sm:mb-18 cdkScrollable overflow-y-auto sm:overflow-y-auto">
+            <ng-container *ngIf="(dataSource$ | async)?.length;else noEntitiy">
+                <!-- @Employee List -->
+                <app-permission-employee-list [dataSources]="dataSource$" (moreInfo)="handleMoreInfo($event)">
+                </app-permission-employee-list>
+
+            </ng-container>
+
+            <!-- @No Data Found Section -->
+            <ng-template #noEntitiy>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">There are no
+                    data!</div>
+            </ng-template>
+
+        </div>
+    </main>
+
+
+</section>

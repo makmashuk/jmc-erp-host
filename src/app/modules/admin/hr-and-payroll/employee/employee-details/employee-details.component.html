@@ -1,0 +1,28 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
+
+    <mat-drawer-container class="flex-auto overflow-visible">
+
+        <!-- Drawer -->
+        <mat-drawer class="w-72 dark:bg-gray-900" [autoFocus]="false" [mode]="drawerMode" [opened]="drawerOpened"
+            #matDrawer>
+            <button class="m-3" mat-flat-button [routerLink]="'/employee'">
+                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'reply'"></mat-icon>
+                Go Back
+            </button>
+            <app-sidenav></app-sidenav>
+        </mat-drawer>
+
+        <!-- Drawer content -->
+        <mat-drawer-content>
+            <button class="m-4" mat-icon-button (click)="matDrawer.toggle()">
+                <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
+            </button>
+
+            <router-outlet></router-outlet>
+
+
+        </mat-drawer-content>
+
+    </mat-drawer-container>
+
+</div>

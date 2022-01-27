@@ -1,0 +1,16 @@
+<section class="p-5">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+        <label formArrayName="permission" >
+            <section *ngFor="let item of permissionFormArray.controls; let i = index">
+                <p><b>Module : {{permissionList[i].module}} </b>  >  {{permissionList[i].sub_module}} </p>
+                <p>
+                    <mat-checkbox (change)="updatePermission(i,$event)" 
+                        [formControlName]="i">
+                         {{permissionList[i].name}}
+                    </mat-checkbox>
+                </p>
+            </section>
+           
+        </label>
+    </form>
+</section>

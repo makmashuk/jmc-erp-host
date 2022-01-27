@@ -1,0 +1,94 @@
+<table class="w-full min-w-320 table-fixed bg-transparent" mat-table [dataSource]="dataSources | async"
+    [trackBy]="trackByFn">
+    <!-- Details -->
+    <ng-container matColumnDef="actions">
+        <th class="w-28 bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+            <section class="flex flex-row gap-2">
+                <button
+                    class="w-7 h-7 rounded-full leading-6 p-0 bg-gray-300 flex justify-center items-center hover:bg-gray-200"
+                    (click)="handleEditOperation(element)">
+                    <mat-icon class="icon-size-4" svgIcon="heroicons_outline:pencil-alt"></mat-icon>
+                </button>
+
+                <button
+                    class="w-7 h-7 rounded-full leading-6 p-0 bg-red-400 flex justify-center items-center hover:bg-red-300"
+                    (click)="handleDeleteOperation(element)">
+                    <mat-icon class="icon-size-4 text-white" svgIcon="heroicons_outline:trash"></mat-icon>
+                </button>
+            </section>
+        </td>
+    </ng-container>
+
+    <!-- NAME -->
+    <ng-container matColumnDef="name">
+        <th class="w-80  bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef>
+            Name
+        </th>
+        <td class="" mat-cell *matCellDef="let element">
+            <div class="flex items-center">
+                <span class="truncate">{{element?.name}}</span>
+            </div>
+        </td>
+    </ng-container>
+
+    <!-- NAME BANGLA-->
+    <ng-container matColumnDef="name_bengali">
+        <th class="w-80  bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef>
+            Name (Bangla)
+        </th>
+        <td class="" mat-cell *matCellDef="let element">
+            <div class="flex items-center">
+                <span class="truncate">{{element?.name_bengali ? element?.name_bengali : 'N/A'}}</span>
+            </div>
+        </td>
+    </ng-container>
+
+    <!-- NAME BANGLA-->
+    <ng-container matColumnDef="payroll_name">
+        <th class="w-80  bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef>
+            Payroll
+        </th>
+        <td class="" mat-cell *matCellDef="let element">
+            <div class="flex items-center">
+                <span class="truncate">{{element?.payroll_name}}</span>
+            </div>
+        </td>
+    </ng-container>
+
+
+    <!-- REMARKS-->
+    <ng-container matColumnDef="remark">
+        <th class="w-80 bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef>
+            Remarks
+        </th>
+        <td mat-cell *matCellDef="let element">
+            <div class="flex items-center">
+                <span class="truncate">{{element.remark ? element.remark : 'N/A'}}</span>
+            </div>
+        </td>
+    </ng-container>
+
+    <!-- STATUS-->
+    <ng-container matColumnDef="status">
+        <th class="w-24 bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef>
+            Status
+        </th>
+        <td class="pr-4" mat-cell *matCellDef="let element">
+            <mat-icon class="text-green-400 icon-size-5" *ngIf="element.status" [svgIcon]="'heroicons_solid:check'">
+            </mat-icon>
+            <mat-icon class="text-red-500 icon-size-5" *ngIf="!element.status" [svgIcon]="'heroicons_solid:x'">
+            </mat-icon>
+        </td>
+    </ng-container>
+
+
+
+    <tr class="shadow" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr class="h-18 hover:bg-hover" mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
+</table>
+
+
+
+
+<!-- @Partials -->

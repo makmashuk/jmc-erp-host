@@ -1,0 +1,144 @@
+<div class="w-full px-8">
+    <header class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between bg-default dark:bg-transparent">
+        <section class="flex-1 min-w-0">
+            <!-- Title -->
+            <div class="mt-2">
+
+                <p class="text-secondary">Bank Info</p>
+                <h2 class="text-2xl font-extrabold tracking-tight leading-normal truncate">
+                    {{employee?.full_name}} ({{employee?.employee_id}})
+                </h2>
+            </div>
+        </section>
+
+        <!-- Actions -->
+        <section class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button class="ml-3" #formBtn mat-flat-button [color]="editable?'primary':''" (click)="editForm()">
+                <mat-icon class="icon-size-5 mr-2" [svgIcon]="editable?'save':'edit'"></mat-icon>
+                {{ editable?'Save':'Edit' }}
+            </button>
+        </section>
+    </header>
+
+    <form *ngIf="editable" class="flex flex-col w-full" [formGroup]="bankInformationForm">
+        <div class="px-8">
+            <div class=" flex flex-auto gap-3">
+                <div class="flex flex-col w-6/12">
+                    <mat-form-field class="w-full">
+                        <mat-label>Salary Bank</mat-label>
+                        <input matInput [formControlName]="'bank_name'">
+                    </mat-form-field>
+                </div>
+                <div class="flex flex-col w-6/12">
+                    <mat-form-field class="w-full">
+                        <mat-label>Branch Name</mat-label>
+                        <input matInput [formControlName]="'branch_name'">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class=" flex flex-auto gap-3">
+                <div class="flex flex-col w-6/12">
+                    <mat-form-field class="w-full">
+                        <mat-label>Account No</mat-label>
+                        <input matInput [formControlName]="'account_no'">
+                    </mat-form-field>
+                </div>
+                <div class="flex flex-col w-6/12">
+                    <mat-form-field class="w-full">
+                        <mat-label>Bank Routing No</mat-label>
+                        <input matInput [formControlName]="'routing_no'">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class=" flex flex-auto gap-3">
+                <div class="flex flex-col w-6/12">
+                    <mat-form-field class="w-full">
+                        <mat-label>Tax Amount</mat-label>
+                        <input matInput [formControlName]="'tax_amount'">
+                    </mat-form-field>
+                </div>
+                <div class="flex flex-col w-6/12">
+                    <mat-form-field class="w-full">
+                        <mat-label>Bank Salary Amount</mat-label>
+                        <input matInput [formControlName]="'bank_salary_amount'">
+                    </mat-form-field>
+                </div>
+                <div class="flex flex-col w-6/12">
+                    <mat-form-field class="w-full">
+                        <mat-label>Salary Period</mat-label>
+                        <input matInput [formControlName]="'salary_period'">
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div>
+                <mat-form-field class="fuse-mat-textarea flex-auto w-full">
+                    <mat-label>Remarks</mat-label>
+                    <textarea matInput [formControlName]="'remark'" fuseAutogrow></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+
+
+    <div *ngIf="!editable" class="flex flex-col w-full pt-6 ma-2">
+
+        <div class="flex flex-col my-2">
+            <fuse-card class="flex px-3 py-6 mb-2">
+
+                <div class="flex flex-col w-6/12">
+                    <table>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Bank Name</span></td>
+                            <td> {{employeeBankInfo.bank_name}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Branch Name </span></td>
+                            <td> {{employeeBankInfo.branch_name}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md">Routing No</span></td>
+                            <td> {{employeeBankInfo.routing_no}}</td>
+                        </tr>
+
+
+                    </table>
+
+
+                </div>
+                <div class="flex flex-col w-6/12">
+                    <table>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Account No</span></td>
+                            <td> {{employeeBankInfo.account_no}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Tax Amount </span></td>
+                            <td> {{employeeBankInfo.tax_amount}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md">Bank Salary Amount</span></td>
+                            <td> {{employeeBankInfo.bank_salary_amount}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md">Salary Period</span></td>
+                            <td> {{employeeBankInfo.salary_period}}</td>
+                        </tr>
+
+
+                    </table>
+
+
+                </div>
+
+            </fuse-card>
+            <fuse-card class="flex px-3 py-6 mb-2">
+                <div>
+                    <p><span class="text-secondary text-md">Remarks</span></p>
+                    {{employeeBankInfo.remark?employeeBankInfo.remark:'N/A'}}
+                </div>
+            </fuse-card>
+        </div>
+    </div>
+
+</div>

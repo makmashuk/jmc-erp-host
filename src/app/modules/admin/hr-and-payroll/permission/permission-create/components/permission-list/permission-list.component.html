@@ -1,0 +1,93 @@
+<table class="w-full min-w-320 table-fixed bg-transparent" 
+    mat-table 
+    [dataSource]="dataSource"
+    [multiTemplateDataRows]="true"
+    [trackBy]="trackByFn"
+    matSort
+    (matSortChange)="announceSortChange($event)"
+    >
+
+    <!-- NAME -->
+    <ng-container matColumnDef="name">
+        <th class="bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-sort-header sortActionDescription="Sort by number" mat-header-cell *matHeaderCellDef>
+         Name
+        </th>
+        <td class="hover:cursor-pointer" mat-cell *matCellDef="let element" (click)="toggleDetails(element.id)">
+            <div class="flex items-center">
+                <span class="truncate">{{element?.name}}</span>
+            </div>
+        </td>
+    </ng-container>
+    <!-- Action -->
+    <ng-container matColumnDef="action">
+        <th class=" bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-sort-header mat-header-cell *matHeaderCellDef>
+         Action
+        </th>
+        <td class="hover:cursor-pointer" mat-cell *matCellDef="let element" (click)="toggleDetails(element.id)">
+            <div class="flex items-center">
+                <span class="truncate">{{element?.action}}</span>
+            </div>
+        </td>
+    </ng-container>
+    <!-- Module -->
+    <ng-container matColumnDef="module">
+        <th class="bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-sort-header mat-header-cell *matHeaderCellDef>
+         Module
+        </th>
+        <td class="hover:cursor-pointer" mat-cell *matCellDef="let element" (click)="toggleDetails(element.id)">
+            <div class="flex items-center">
+                <span class="truncate">{{element?.module}}</span>
+            </div>
+        </td>
+    </ng-container>
+    <!-- Sub Module -->
+    <ng-container matColumnDef="sub_module">
+        <th class=" bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-sort-header mat-header-cell *matHeaderCellDef>
+         Sub Module
+        </th>
+        <td class="hover:cursor-pointer" mat-cell *matCellDef="let element" (click)="toggleDetails(element.id)">
+            <div class="flex items-center">
+                <span class="truncate">{{element?.sub_module}}</span>
+            </div>
+        </td>
+    </ng-container>
+    <!-- Child -->
+    <ng-container matColumnDef="child">
+        <th class="bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-sort-header mat-header-cell *matHeaderCellDef>
+         Child
+        </th>
+        <td class="hover:cursor-pointer" mat-cell *matCellDef="let element" (click)="toggleDetails(element.id)">
+            <div class="flex items-center">
+                <span class="truncate">{{element?.child}}</span>
+            </div>
+        </td>
+    </ng-container>
+
+   
+   
+
+    <!-- Actions -->
+    <ng-container matColumnDef="actions">
+        <th class="w-20 pr-8 bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef></th>
+        <td class="pr-8" mat-cell *matCellDef="let element">
+            <section class="flex flex-row gap-2">
+            
+                <button
+                    class="h-7 rounded-full leading-6 p-3 bg-red-400 flex justify-center items-center hover:bg-red-300"
+                    (click)="handleDeleteOperation(element)">
+                    <mat-icon class="icon-size-4 text-white" svgIcon="heroicons_outline:trash"></mat-icon>
+                </button>
+        
+            </section>
+        </td>
+    </ng-container>
+
+
+    <tr class="shadow" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr class="h-18 hover:bg-hover" mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
+</table>
+
+
+
+
+<!-- @Partials -->

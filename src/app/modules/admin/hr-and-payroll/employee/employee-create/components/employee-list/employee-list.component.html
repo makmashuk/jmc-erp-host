@@ -1,0 +1,272 @@
+<table class="w-full min-w-320 table-fixed bg-transparent" 
+    mat-table 
+    [dataSource]="dataSources | async"
+    [multiTemplateDataRows]="true"
+    [trackBy]="trackByFn">
+
+    <!-- ID-->
+    <ng-container matColumnDef="id">
+        <th class="w-80  bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef>
+            Employee Id
+        </th>
+        <td class="" mat-cell *matCellDef="let element">
+            <div class="flex items-center">
+                <span class="truncate">{{element?.employee_id}}</span>
+            </div>
+        </td>
+    </ng-container>
+
+    <!-- NAME -->
+    <ng-container matColumnDef="name">
+        <th class="w-80  bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef>
+            Full Name
+        </th>
+        <td class="hover:cursor-pointer" mat-cell *matCellDef="let element" (click)="toggleDetails(element.id)">
+            <div class="flex items-center">
+                <span class="truncate">{{element?.full_name}}</span>
+            </div>
+        </td>
+    </ng-container>
+
+    <!-- REMARKS-->
+    <ng-container matColumnDef="remark">
+        <th class="w-80 bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef>
+            Remarks
+        </th>
+        <td mat-cell *matCellDef="let element">
+            <div class="flex items-center">
+                <span class="truncate">{{element.remark ? element.remark : 'N/A'}}</span>
+            </div>
+        </td>
+    </ng-container>
+
+    <!-- STATUS-->
+    <ng-container matColumnDef="status">
+        <th class="w-24 bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef>
+            Status
+        </th>
+        <td class="pr-4" mat-cell *matCellDef="let element">
+            <mat-icon class="text-green-400 icon-size-5" *ngIf="element.status" [svgIcon]="'heroicons_solid:check'">
+            </mat-icon>
+            <mat-icon class="text-red-500 icon-size-5" *ngIf="!element.status" [svgIcon]="'heroicons_solid:x'">
+            </mat-icon>
+        </td>
+    </ng-container>
+
+    <!-- Actions -->
+    <ng-container matColumnDef="actions">
+        <th class="w-36 pr-8 bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef></th>
+        <td class="pr-8" mat-cell *matCellDef="let element">
+            <section class="flex flex-row gap-2">
+                <button
+                    class="w-15 h-7 rounded-full leading-6 p-0 bg-gray-300 flex justify-center items-center hover:bg-gray-200"
+                    (click)="handleEditOperation(element)">
+                    <mat-icon class="icon-size-4" svgIcon="heroicons_outline:pencil-alt"></mat-icon>
+                </button>
+
+                <button
+                    class="w-15 h-7 rounded-full leading-6 p-0 bg-red-400 flex justify-center items-center hover:bg-red-300"
+                    (click)="handleDeleteOperation(element)">
+                    <mat-icon class="icon-size-4 text-white" svgIcon="heroicons_outline:trash"></mat-icon>
+                </button>
+                <button
+                    class="w-15 h-7 rounded-full leading-6 p-0 bg-green-400 flex justify-center items-center hover:bg-red-300"
+                    (click)="handleMoreInfoOperation(element)">
+                    <mat-icon class="icon-size-4 text-white" svgIcon="info"></mat-icon>
+                </button>
+            </section>
+        </td>
+    </ng-container>
+
+    <!-- Details -->
+    <ng-container matColumnDef="details">
+        <th class="w-24 pr-8 bg-gray-50 dark:bg-black dark:bg-opacity-5" mat-header-cell *matHeaderCellDef>
+            Details
+        </th>
+        <td class="pr-8" mat-cell *matCellDef="let element">
+            <button class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-stroked-button (click)="toggleDetails(element.id)">
+                <mat-icon class="icon-size-5"
+                    [svgIcon]="selectedEmployee?.id === element.id ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'">
+                </mat-icon>
+
+                <!-- {{element?.id}} -->
+            </button>
+            <!-- {{selectedEmployee?.id}} -->
+        </td>
+    </ng-container>
+
+    <!-- Employee details row -->
+    <ng-container matColumnDef="employeeDetails">
+        <td class="p-0 border-b-0" mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+            <div class="shadow-lg overflow-hidden"
+                [@expandCollapse]="selectedEmployee?.id === element.id ? 'expanded' : 'collapsed'">
+                <div class="border-b">
+                    
+                    <fuse-card class="flex m-3 px-3 py-6 mb-2 w-full">
+
+                        <div class="flex flex-col w-3/12">
+                            <table>
+                                <tr>
+                                    <td><span class="text-secondary text-md"> Full Name </span></td>
+                                    <td> {{selectedEmployee?.full_name}} </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="text-secondary text-md"> Designation </span></td>
+                                    <td>  {{selectedEmployee?.designation.name}}</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="text-secondary text-md"> Sub Designation </span></td>
+                                    <td> {{(selectedEmployee?.sub_designation)?selectedEmployee?.sub_designation.name: 'N/A'}} </td>
+                                </tr>
+                                
+                            </table>
+        
+                        </div>
+                        <div class="flex flex-col w-3/12">
+                            <table>
+                                <tr>
+                                    <td><span class="text-secondary text-md">  Company </span></td>
+                                    <td> {{selectedEmployee?.company.name}} </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="text-secondary text-md"> Location </span></td>
+                                    <td>  {{selectedEmployee?.location.name}}</td>
+                                </tr>
+                                
+                            </table>
+        
+                        </div>
+                        <div class="flex flex-col w-3/12">
+                            <table>
+                                <tr>
+                                    <td><span class="text-secondary text-md">  Unit </span></td>
+                                    <td> {{(selectedEmployee?.unit)?selectedEmployee?.unit.name: 'N/A'}}  </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="text-secondary text-md">  Division </span></td>
+                                    <td> {{(selectedEmployee?.division)?selectedEmployee?.division.name: 'N/A'}}  </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="text-secondary text-md">  Department </span></td>
+                                    <td> {{(selectedEmployee?.department)?selectedEmployee?.department.name: 'N/A'}}  </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="text-secondary text-md">  Section </span></td>
+                                    <td> {{(selectedEmployee?.section)?selectedEmployee?.section.name: 'N/A'}}  </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="text-secondary text-md">  Sub Section </span></td>
+                                    <td> {{(selectedEmployee?.sub_section)?selectedEmployee?.sub_section.name: 'N/A'}}  </td>
+                                </tr>
+                               
+                                
+                            </table>
+        
+                        </div>
+                        <div class="flex flex-col w-3/12">
+                            <table>
+                                <tr>
+                                    <td><span class="text-secondary text-md">  Functional Superior </span></td>
+                                    <td>  </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="text-secondary text-md"> Admin Superior </span></td>
+                                    <td>  </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="text-secondary text-md"> Designation Group </span></td>
+                                    <td> {{(selectedEmployee?.designation_group)?selectedEmployee?.designation_group.name: 'N/A'}} </td>
+                                </tr>
+                                
+                            </table>
+        
+                        </div>
+                        
+                    </fuse-card>
+                    <fuse-card class="flex m-3 px-3 py-6 mb-2 w-full">
+
+                        <div class="flex flex-col w-3/12">
+                            <table>
+                                <tr>
+                                    <td><span class="text-secondary text-md"> Weekend </span></td>
+                                    <td> {{selectedEmployee?.weekend}} </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="text-secondary text-md"> Grade </span></td>
+                                    <td>  {{selectedEmployee?.designation.name}}</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="text-secondary text-md"> Overduty </span></td>
+                                    <td> {{selectedEmployee?.over_duty }}</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="text-secondary text-md"> Salary Type </span></td>
+                                    <td> {{selectedEmployee?.salary_type }}</td>
+                                </tr>
+                                
+                            </table>
+        
+                        </div>
+                        <div class="flex flex-col w-3/12">
+                            <table>
+                                <tr>
+                                    <td><span class="text-secondary text-md">  Joining Date </span></td>
+                                    <td> {{selectedEmployee?.joining_date | date}} </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="text-secondary text-md"> Confirmation Date </span></td>
+                                    <td>  {{selectedEmployee?.confirmation_date | date}}</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="text-secondary text-md"> Status </span></td>
+                                    <td> {{selectedEmployee?.status }}</td>
+                                </tr>
+                                
+                            </table>
+        
+                        </div>
+                        <div class="flex flex-col w-3/12">
+                            <table>
+                                <tr>
+                                    <td><span class="text-secondary text-md">  Attendance info restricted </span></td>
+                                    <td> {{(selectedEmployee?.attendance_info_restricted)? 'Yes': 'No'}}  </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="text-secondary text-md">  Salary info restricted </span></td>
+                                    <td> {{(selectedEmployee?.salary_info_restricted)? 'Yes': 'No'}}  </td>
+                                </tr>
+                                
+                               
+                                
+                            </table>
+        
+                        </div>
+                        <div class="flex flex-col w-3/12">
+                            <table>
+                                <tr>
+                                    <td><span class="text-secondary text-md"> Remarks</span></td>
+                                    <td> 
+                                      
+                                        {{(selectedEmployee?.remark)?selectedEmployee.remark:'N/A'}} </td>
+                                </tr>
+                                
+                                
+                            </table>
+        
+                        </div>
+                        
+                    </fuse-card>
+                </div>
+            </div>
+        </td>
+    </ng-container>
+
+    <tr class="shadow" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr class="h-18 hover:bg-hover" mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
+    <tr class="h-0" mat-row *matRowDef="let row; columns: ['employeeDetails']"></tr>
+</table>
+
+
+
+
+<!-- @Partials -->

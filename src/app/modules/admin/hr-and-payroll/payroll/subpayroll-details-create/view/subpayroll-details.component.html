@@ -1,0 +1,137 @@
+<section class="absolute inset-0 flex flex-col min-w-0 overflow-hidden bg-card dark:bg-transparent">
+    <!-- @Header -->
+    <header (openCreateModal)='handleCreateModal()' [isLoading]="(dataLoading$ | async)"></header>
+
+
+    <main class="flex flex-auto overflow-hidden">
+        <div class="flex flex-col flex-auto sm:mb-18 cdkScrollable overflow-y-auto sm:overflow-y-auto">
+            <ng-container *ngIf="(dataSource$ | async)?.length;else noEntitiy">
+                <!-- @Company List -->
+                <subpayroll-list [dataSources]="dataSource$" (edit)="handleEdit($event)"
+                    (delete)="handleDeleteModal($event)"></subpayroll-list>
+
+                <!-- @Paginator -->
+                <mat-paginator
+                    class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                    [ngClass]="{'pointer-events-none': (dataLoading$ | async)}" [length]="totalDataCount$ | async"
+                    [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
+                    (page)="getNewData()">
+                </mat-paginator>
+            </ng-container>
+
+            <!-- @No Data Found Section -->
+            <ng-template #noEntitiy>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">There are no
+                    data!</div>
+            </ng-template>
+
+        </div>
+    </main>
+
+
+</section>
+
+
+
+<!-- @Partials -->
+
+<!-- SUB DESIGNATION CREATE FORM -->
+<ng-template #createForm>
+    <section>
+        <!-- Header` -->
+        <h2 mat-dialog-title>SUB DESIGNATION DETAILS</h2>
+        <!-- Body`` -->
+        <mat-dialog-content class="mat-typography">
+            <form class="flex flex-col w-full" [formGroup]="formInstance">
+                <div class="flex">
+                    <div class="flex flex-auto gap-6">
+                        <!-- Grid 1/2 -->
+                        <section class="flex flex-col w-3/6">
+                            <!-- Name` -->
+                            <mat-form-field class="w-full">
+                                <mat-label>Name</mat-label>
+                                <input matInput [formControlName]="'name'">
+                            </mat-form-field>
+
+                            <!-- Remarks -->
+                            <mat-form-field class="w-full">
+                                <mat-label>Remarks</mat-label>
+                                <input matInput [formControlName]="'remark'">
+                            </mat-form-field>
+
+                            <mat-form-field class="w-full">
+                                <mat-label>Payrolls</mat-label>
+                                <mat-select [formControlName]="'payroll_id'">
+                                    <mat-option *ngFor="let payroll of payrollList$ | async" [value]="payroll.id">
+                                        {{payroll.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </section>
+
+                        <!-- Grid 1/2 -->
+                        <section class="flex flex-col w-3/6">
+                            <!-- Name in bangla -->
+                            <mat-form-field class="w-full">
+                                <mat-label>Name (Bangla)</mat-label>
+                                <input matInput [formControlName]="'name_bengali'">
+                            </mat-form-field>
+
+                            <!-- Status -->
+                            <div class="flex flex-col">
+                                <span class="font-semibold mb-2">Status</span>
+                                <mat-slide-toggle [formControlName]="'status'" [color]="'primary'">
+                                    {{formInstance.get('status').value === true ?
+                                    'Active' : 'Inactive'}}
+                                </mat-slide-toggle>
+                            </div>
+
+                        </section>
+                    </div>
+
+
+                </div>
+            </form>
+        </mat-dialog-content>
+
+        <!-- Action -->
+        <mat-dialog-actions align="end">
+            <button mat-button mat-dialog-close (click)="onCancel()">CANCEL</button>
+            <button mat-flat-button [color]="'primary'" (click)="handleSavingOperation()"
+                [disabled]="!formInstance.valid || isLoading"><span>SAVE</span>
+                <btn-loader *ngIf="isLoading"></btn-loader>
+            </button>
+        </mat-dialog-actions>
+    </section>
+</ng-template>
+
+
+<!-- DELETE ALERT -->
+<ng-template #confirmationModal>
+    <div class="flex flex-col w-full h-full">
+
+        <div class="flex flex-col sm:flex-row flex-auto items-center sm:items-start ">
+            <div
+                class="flex flex-0 items-center justify-center w-10 h-10 sm:mr-4 rounded-full text-warn-600 bg-warn-100 dark:text-warn-50 dark:bg-warn-600">
+                <mat-icon svgIcon="heroicons_outline:exclamation" color="warn"></mat-icon>
+            </div>
+            <div
+                class="flex flex-col items-center sm:items-start mt-4 sm:mt-0 sm:pr-8 space-y-1 text-center sm:text-left ng-star-inserted">
+                <div class="text-xl leading-6 font-medium ng-star-inserted">Remove entity</div>
+
+                <div class="text-secondary ng-star-inserted">Are you sure you want to remove this entity permanently?
+                    <span class="font-medium">This action cannot be undone!</span>
+                </div>
+            </div>
+        </div>
+
+        <div
+            class="flex items-center justify-center sm:justify-end px-6 py-4 space-x-3 bg-gray-50 dark:bg-black dark:bg-opacity-10 absolute left-0 bottom-0 right-0">
+            <button mat-stroked-button mat-dialog-close>Cancel</button>
+            <button mat-flat-button color="warn" cdkFocusInitial (click)="handleSavingOperation()">
+                <span>Remove</span>
+                <btn-loader *ngIf="isLoading"></btn-loader>
+            </button>
+        </div>
+    </div>
+</ng-template>

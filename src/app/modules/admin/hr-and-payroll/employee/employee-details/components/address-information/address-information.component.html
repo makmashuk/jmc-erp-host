@@ -1,0 +1,517 @@
+<div class="w-full px-8">
+    <header class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between bg-default darkbg-transparent">
+        <section class="flex-1 min-w-0">
+             <!-- Title -->
+             <div class="mt-2">
+
+                <p class="text-secondary">Contact Info</p>
+                <h2 class="text-2xl font-extrabold tracking-tight leading-normal truncate">
+                    {{employee?.full_name}} ({{employee?.employee_id}})
+                </h2>
+            </div>
+        </section>
+
+        <!-- Actions -->
+        <section class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button class="ml-3" #formBtn mat-flat-button [color]="editable?'primary':''" (click)="editForm()">
+                <mat-icon class="icon-size-5 mr-2" [svgIcon]="editable?'save':'edit'"></mat-icon>
+                {{ editable?'Save':'Edit' }}
+            </button>
+        </section>
+    </header>
+
+    <form *ngIf="editable" class="flex flex-col w-full" [formGroup]="employeeContactForm">
+        <div class="px-8">
+            <div class=" flex flex-auto gap-3">
+                <div class="flex flex-col w-4/12">
+                    <mat-form-field class="w-full">
+                        <mat-label>Land Phone</mat-label>
+                        <input matInput [formControlName]="'land_phone'">
+                    </mat-form-field>
+                </div>
+                <div class="flex flex-col w-4/12">
+                    <mat-form-field class="w-full">
+                        <mat-label>Cell Phone</mat-label>
+                        <input matInput [formControlName]="'cell_phone'">
+                    </mat-form-field>
+                </div>
+                <div class="flex flex-col w-4/12">
+                    <mat-form-field class="w-full">
+                        <mat-label>Email</mat-label>
+                        <input matInput [formControlName]="'email'">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div>
+                <mat-form-field class="fuse-mat-textarea flex-auto w-full">
+                    <mat-label>Remarks</mat-label>
+                    <textarea matInput [formControlName]="'remark'" fuseAutogrow></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+
+    <div *ngIf="editable" class="p-8 w-full">
+        <form class="flex flex-col w-full" [formGroup]="employeePresentAddress">
+
+            <p class="text-lg text-opacity-60 mb-2 font-normal tracking-tight leading-normal truncate">
+                Present Address</p>
+
+            <div class=" flex flex-auto gap-3">
+                <div class="flex flex-col w-full">
+                    <mat-form-field class="w-full">
+                        <mat-label>House Name</mat-label>
+                        <input matInput [formControlName]="'house_name'">
+                    </mat-form-field>
+                </div>
+            </div>
+
+
+            <div class="flex flex-auto gap-3">
+                <div class="flex flex-col w-6/12">
+                    <mat-form-field class="w-full">
+                        <mat-label>House No</mat-label>
+                        <input matInput [formControlName]="'house_no'">
+                    </mat-form-field>
+                </div>
+
+                <div class="flex flex-col w-6/12">
+                    <mat-form-field class="w-full">
+                        <mat-label>Floor</mat-label>
+                        <input matInput [formControlName]="'floor'">
+                    </mat-form-field>
+                </div>
+
+            </div>
+
+            <div class="flex flex-auto gap-3">
+                <div class="flex flex-col w-6/12">
+                    <mat-form-field class="w-full">
+                        <mat-label>Road No</mat-label>
+                        <input matInput [formControlName]="'road_no'">
+                    </mat-form-field>
+                </div>
+
+                <div class="flex flex-col w-6/12">
+                    <mat-form-field class="w-full">
+                        <mat-label>Block</mat-label>
+                        <input matInput [formControlName]="'block'">
+                    </mat-form-field>
+                </div>
+
+            </div>
+            <div class="flex flex-auto gap-3">
+                <div class="flex flex-col w-6/12">
+                    <mat-form-field class="w-full">
+                        <mat-label>Village / Area</mat-label>
+                        <input matInput [formControlName]="'area'">
+                    </mat-form-field>
+                </div>
+                <div class="flex flex-col w-6/12">
+                    <mat-form-field class="w-full">
+                        <mat-label>Police Station</mat-label>
+                        <input matInput [formControlName]="'police_station'">
+                    </mat-form-field>
+                </div>
+
+
+
+            </div>
+            <div class="flex flex-auto gap-3">
+                <div class="flex flex-col w-6/12">
+                    <mat-form-field class="w-full">
+                        <mat-label>Ward Name</mat-label>
+                        <input matInput [formControlName]="'word_name'">
+                    </mat-form-field>
+                </div>
+
+                <div class="flex flex-col w-6/12">
+                    <mat-form-field class="w-full">
+                        <mat-label>Ward number</mat-label>
+                        <input matInput [formControlName]="'word_number'">
+                    </mat-form-field>
+                </div>
+
+            </div>
+            <div class="flex flex-auto gap-3">
+                <div class="flex flex-col w-6/12">
+                    <mat-form-field class="w-full">
+                        <mat-label>Post Office</mat-label>
+                        <input matInput [formControlName]="'post_office'">
+                    </mat-form-field>
+                </div>
+
+                <div class="flex flex-col w-6/12">
+                    <mat-form-field class="w-full">
+                        <mat-label>Post Office Code</mat-label>
+                        <input matInput [formControlName]="'post_office_code'">
+                    </mat-form-field>
+                </div>
+
+            </div>
+            <div class="flex flex-auto gap-3">
+                <div class="flex flex-col w-6/12">
+
+                    <mat-form-field class="w-full">
+                        <mat-label>District</mat-label>
+                        <mat-select [formControlName]="'district'">
+                            <mat-option *ngFor="let item of districtList$ | async" [value]="item">
+                                {{item}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="flex flex-col w-6/12">
+                    <mat-form-field class="w-full">
+                        <mat-label>Division</mat-label>
+                        <mat-select [formControlName]="'division'">
+                            <mat-option *ngFor="let item of divisionList$ | async" [value]="item">
+                                {{item}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+
+            </div>
+        </form>
+
+    </div>
+
+    <div *ngIf="editable" class="p-8 w-full">
+        <form class="flex flex-col w-full" [formGroup]="employeePermanentAddress">
+
+            <p class="text-lg text-opacity-60 mb-2 font-normal tracking-tight leading-normal truncate">Permanent
+                Address</p>
+            <mat-checkbox class="mb-3" [formControlName]="'isSameAsPresent'">
+                Same As Present Address
+            </mat-checkbox>
+            <ng-container *ngIf="!this.employeePermanentAddress.get('isSameAsPresent').value">
+                <div class=" flex flex-auto gap-3">
+                    <div class="flex flex-col w-full">
+                        <mat-form-field class="w-full">
+                            <mat-label>House Name</mat-label>
+                            <input matInput [formControlName]="'house_name'">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+
+                <div class="flex flex-auto gap-3">
+                    <div class="flex flex-col w-6/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>House No</mat-label>
+                            <input matInput [formControlName]="'house_no'">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex flex-col w-6/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Floor</mat-label>
+                            <input matInput [formControlName]="'floor'">
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+                <div class="flex flex-auto gap-3">
+                    <div class="flex flex-col w-6/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Road No</mat-label>
+                            <input matInput [formControlName]="'road_no'">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex flex-col w-6/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Block</mat-label>
+                            <input matInput [formControlName]="'block'">
+                        </mat-form-field>
+                    </div>
+
+                </div>
+                <div class="flex flex-auto gap-3">
+                    <div class="flex flex-col w-6/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Village / Area</mat-label>
+                            <input matInput [formControlName]="'area'">
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col w-6/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Police Station</mat-label>
+                            <input matInput [formControlName]="'police_station'">
+                        </mat-form-field>
+                    </div>
+
+
+
+                </div>
+                <div class="flex flex-auto gap-3">
+                    <div class="flex flex-col w-6/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Ward Name</mat-label>
+                            <input matInput [formControlName]="'word_name'">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex flex-col w-6/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Ward number</mat-label>
+                            <input matInput [formControlName]="'word_number'">
+                        </mat-form-field>
+                    </div>
+
+                </div>
+                <div class="flex flex-auto gap-3">
+                    <div class="flex flex-col w-6/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Post Office</mat-label>
+                            <input matInput [formControlName]="'post_office'">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex flex-col w-6/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Post Office Code</mat-label>
+                            <input matInput [formControlName]="'post_office_code'">
+                        </mat-form-field>
+                    </div>
+
+                </div>
+                <div class="flex flex-auto gap-3">
+                    <div class="flex flex-col w-6/12">
+
+                        <mat-form-field class="w-full">
+                            <mat-label>District</mat-label>
+                            <mat-select [formControlName]="'district'">
+                                <mat-option *ngFor="let item of districtList$ | async" [value]="item">
+                                    {{item}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex flex-col w-6/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Division</mat-label>
+                            <mat-select [formControlName]="'division'">
+                                <mat-option *ngFor="let item of divisionList$ | async" [value]="item">
+                                    {{item}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+
+            </ng-container>
+        </form>
+
+    </div>
+
+  
+
+
+    <div *ngIf="!editable" class="flex flex-col w-full pt-6 ma-2">
+
+        <div class="flex flex-col my-2">
+            <fuse-card class="flex px-3 py-6 mb-2">
+
+                <div class="flex flex-col w-full">
+                    <table>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Land Phone </span></td>
+                            <td>  {{employeeAddressInfo.land_phone?employeeAddressInfo.land_phone:'N/A'}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Cell Phone </span></td>
+                            <td>  {{employeeAddressInfo.cell_phone}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Email </span></td>
+                            <td>  {{employeeAddressInfo.email}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Remarks </span></td>
+                            <td>  {{employeeAddressInfo.remark?employeeAddressInfo.remark:'N/A'}}</td>
+                        </tr>
+
+                    </table>
+
+
+                </div>
+
+            </fuse-card>
+            <fuse-card class="flex flex-col px-3 py-6 mb-2">
+                <div class="text-xl text-md my-2">
+                    Permanent Address</div>
+                    <div class="flex">
+
+                    
+                <div class="flex flex-col w-4/12">
+                   
+                    <table>
+                        <tr>
+                            <td><span class="text-secondary text-md"> House Name </span></td>
+                            <td> 
+                                {{employeeAddressInfo.permanent_address.house_name?employeeAddressInfo.permanent_address.house_name:'N/A'}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> House No </span></td>
+                            <td>  {{employeeAddressInfo.permanent_address.house_no}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Floor</span></td>
+                            <td>  {{employeeAddressInfo.permanent_address.floor}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Block </span></td>
+                            <td> 
+                                {{employeeAddressInfo.permanent_address.block?employeeAddressInfo.permanent_address.block:'N/A'}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Road No/Name </span></td>
+                            <td>  {{employeeAddressInfo.permanent_address.road_no}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Area</span></td>
+                            <td>  {{employeeAddressInfo.permanent_address.area}}</td>
+                        </tr>
+                    </table>
+
+                </div>
+               
+                <div class="flex flex-col w-4/12">
+                    <table>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Word Name </span></td>
+                            <td> 
+                                {{employeeAddressInfo.permanent_address.word_name}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Word No </span></td>
+                            <td>  {{employeeAddressInfo.permanent_address.word_number}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Post Office</span></td>
+                            <td>  {{employeeAddressInfo.permanent_address.post_office}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Post Office Code</span></td>
+                            <td>  {{employeeAddressInfo.permanent_address.post_office_code}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="flex flex-col w-4/12">
+                    <table>
+                        
+                        <tr>
+                            <td><span class="text-secondary text-md"> District </span></td>
+                            <td>  {{employeeAddressInfo.permanent_address.district}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Division</span></td>
+                            <td>  {{employeeAddressInfo.permanent_address.division}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            </fuse-card>
+
+            <fuse-card class="flex flex-col px-3 py-6 mb-2">
+                <div class="text-xl text-md my-2">
+                    Present Address</div>
+                    <div class="flex">
+            
+                    
+                <div class="flex flex-col w-4/12">
+                   
+                    <table>
+                        <tr>
+                            <td><span class="text-secondary text-md"> House Name </span></td>
+                            <td> 
+                                {{employeeAddressInfo.present_address.house_name?employeeAddressInfo.present_address.house_name:'N/A'}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> House No </span></td>
+                            <td>  {{employeeAddressInfo.present_address.house_no}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Floor</span></td>
+                            <td>  {{employeeAddressInfo.present_address.floor}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Block </span></td>
+                            <td> 
+                                {{employeeAddressInfo.present_address.block?employeeAddressInfo.present_address.block:'N/A'}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Road No/Name </span></td>
+                            <td>  {{employeeAddressInfo.present_address.road_no}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Area</span></td>
+                            <td>  {{employeeAddressInfo.present_address.area}}</td>
+                        </tr>
+                    </table>
+            
+                </div>
+               
+                <div class="flex flex-col w-4/12">
+                    <table>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Word Name </span></td>
+                            <td> 
+                                {{employeeAddressInfo.present_address.word_name}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Word No </span></td>
+                            <td>  {{employeeAddressInfo.present_address.word_number}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Post Office</span></td>
+                            <td>  {{employeeAddressInfo.present_address.post_office}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Post Office Code</span></td>
+                            <td>  {{employeeAddressInfo.present_address.post_office_code}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="flex flex-col w-4/12">
+                    <table>
+                        
+                        <tr>
+                            <td><span class="text-secondary text-md"> District </span></td>
+                            <td>  {{employeeAddressInfo.present_address.district}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Division</span></td>
+                            <td>  {{employeeAddressInfo.present_address.division}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            </fuse-card>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+</div>

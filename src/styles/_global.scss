@@ -1,0 +1,16 @@
+//-------------------------------------------------------------------------
+// @Global Css
+//--------------------------------------------------------------------------
+
+.page-layout {
+    @apply relative;
+    @apply overflow-x-hidden;
+
+    &.carded {
+        @aaply flex flex-col flex-auto min-w-0 h-full;
+
+        & > .center {
+            @apply flex-auto p-8 pb-0 bg-primary h-full w-full max-h-full max-w-full;
+        }
+    }
+}

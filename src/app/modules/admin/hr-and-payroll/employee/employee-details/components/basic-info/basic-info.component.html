@@ -1,0 +1,375 @@
+<div class="w-full px-8">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between pb-6 bg-default dark:bg-transparent">
+        <section class="flex-1 min-w-0">
+            <!-- Title -->
+            <div class="mt-2">
+
+                <p class="text-secondary">Basic Info</p>
+                <h2 class="text-2xl font-extrabold tracking-tight leading-normal truncate">
+                    {{employee?.full_name}} ({{employee?.employee_id}})
+                </h2>
+            </div>
+        </section>
+
+        <!-- Actions -->
+        <section class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button class="ml-3" #formBtn mat-flat-button [color]="editable?'primary':''" (click)="editForm()">
+                <mat-icon class="icon-size-5 mr-2" [svgIcon]="editable?'save':'edit'"></mat-icon>
+                {{ editable?'Save':'Edit' }}
+            </button>
+        </section>
+    </div>
+    <form *ngIf="editable" class="flex flex-col w-full" [formGroup]="employeeBasicForm">
+        <div class="flex">
+            <div class="w-full gap-2">
+                <div class="flex flex-col w-full">
+                    <mat-form-field class="w-full">
+                        <mat-label>Employee Name (Bangla)</mat-label>
+                        <input matInput [formControlName]="'name_bengali'">
+                    </mat-form-field>
+                </div>
+                <div class="flex gap-2 w-full">
+                    <div class="flex flex-col w-6/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Father's Name </mat-label>
+                            <input matInput [formControlName]="'father_name'">
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col w-6/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Father's Name (Bangla)</mat-label>
+                            <input matInput [formControlName]="'father_name_bengali'">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="flex gap-2 w-full">
+                    <div class="flex flex-col w-6/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Mother's Name</mat-label>
+                            <input matInput [formControlName]="'mother_name'">
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col w-6/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Mother's Name (Bangla)</mat-label>
+                            <input matInput [formControlName]="'mother_name_bengali'">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="flex gap-2 w-full">
+
+                    <div class="flex flex-col w-4/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Maritial Status</mat-label>
+                            <input matInput [formControlName]="'maritual_status'">
+                        </mat-form-field>
+
+                    </div>
+                    <div class="flex flex-col w-4/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Spouse Name</mat-label>
+                            <input matInput [formControlName]="'spouse_name'">
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col w-4/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Spouse Name (Bangla)</mat-label>
+                            <input matInput [formControlName]="'spouse_name_bengali'">
+                        </mat-form-field>
+
+                    </div>
+                </div>
+                <div class="flex gap-2 w-full">
+                    <div class="flex flex-col w-6/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Nationality</mat-label>
+                            <input matInput [formControlName]="'nationality'">
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col w-6/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Dual Nationality Name(If any)</mat-label>
+                            <input matInput [formControlName]="'dual_nationality'">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="flex gap-2 w-full">
+                    <div class="flex flex-col w-4/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Religion</mat-label>
+                            <mat-select [formControlName]="'religion'">
+                                <mat-option *ngFor="let religion of religionList$ | async" [value]="religion">
+                                    {{religion}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col w-4/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Sex</mat-label>
+                            <mat-select [formControlName]="'sex'">
+                                <mat-option *ngFor="let item of genderList$ | async" [value]="item">
+                                    {{item}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col w-4/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Blood Group</mat-label>
+                            <mat-select [formControlName]="'blood_group'">
+                                <mat-option *ngFor="let item of bloodGroupList$ | async" [value]="item">
+                                    {{item}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="flex gap-2 w-full">
+                    <div class="flex flex-col w-6/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Height</mat-label>
+                            <input matInput [formControlName]="'height'">
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col w-6/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Identification Sign</mat-label>
+                            <input matInput [formControlName]="'identification_sign'">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="flex gap-2 w-full">
+                    <div class="flex flex-col w-4/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Date Of Birth</mat-label>
+
+
+                            <input matInput [matDatepicker]="dobPicker" [formControlName]="'dob'"
+                                [placeholder]="'Choose a date'">
+
+                            <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
+                            <mat-datepicker #dobPicker></mat-datepicker>
+
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col w-4/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Birth Place</mat-label>
+                            <input matInput [formControlName]="'birth_place'">
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col w-4/12">
+
+                        <mat-form-field class="w-full">
+                            <mat-label>Birth Registration Number</mat-label>
+                            <input matInput [formControlName]="'birth_reg_no'">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="flex gap-2 w-full">
+                    <div class="flex flex-col w-4/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Passport Number</mat-label>
+                            <input matInput [formControlName]="'passport_no'">
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col w-4/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Passport Issue Date</mat-label>
+                            <input matInput [matDatepicker]="pasPicker" [formControlName]="'passport_issue_date'"
+                                [placeholder]="'Choose a date'">
+
+                            <mat-datepicker-toggle matSuffix [for]="pasPicker"></mat-datepicker-toggle>
+                            <mat-datepicker #pasPicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col w-4/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Passport Issue Place</mat-label>
+                            <input matInput [formControlName]="'passport_issue_place'">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="flex gap-2 w-full">
+                    <div class="flex flex-col w-4/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Driving License Number</mat-label>
+                            <input matInput [formControlName]="'driving_license_no'">
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col w-4/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Driving License Issue Date</mat-label>
+                            <input matInput [matDatepicker]="dliPicker" [formControlName]="'driving_license_issue_date'"
+                                [placeholder]="'Choose a date'">
+
+                            <mat-datepicker-toggle matSuffix [for]="dliPicker"></mat-datepicker-toggle>
+                            <mat-datepicker #dliPicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col w-4/12">
+                        <mat-form-field class="w-full">
+                            <mat-label>Driving License Issue Place</mat-label>
+                            <input matInput [formControlName]="'driving_license_issue_place'">
+                        </mat-form-field>
+
+                    </div>
+                </div>
+                <div class="flex gap-2 w-full">
+                    <div class="flex flex-col w-full">
+
+                        <mat-form-field class="fuse-mat-textarea flex-auto">
+                            <mat-label>Remarks</mat-label>
+                            <textarea matInput [formControlName]="'remark'" fuseAutogrow></textarea>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </form>
+
+
+
+    <div *ngIf="!editable" class="flex flex-col w-full pt-6 ma-2">
+
+        <div class="flex flex-col my-2">
+            <fuse-card class="flex px-3 py-6 mb-2">
+
+                <div class="flex flex-col w-6/12">
+                    <table>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Name Bangla </span></td>
+                            <td>  {{employeeBasicInfo.name_bengali?employeeBasicInfo.name_bengali:'N/A'}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Sex </span></td>
+                            <td>  {{employeeBasicInfo.sex}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Height </span></td>
+                            <td>  {{employeeBasicInfo.height?employeeBasicInfo.height : 'N/A'}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Religion </span></td>
+                            <td>  {{employeeBasicInfo.religion}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md">Blood Group </span></td>
+                            <td>  {{employeeBasicInfo.blood_group}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Identification Sign </span></td>
+                            <td>  {{employeeBasicInfo.identification_sign}}</td>
+                        </tr>
+                    </table>
+
+
+                </div>
+                <div class="flex flex-col w-4/12">
+                    <table>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Date Of Birth</span> </td>
+                            <td> {{employeeBasicInfo.dob | date}} </td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Birth Place </span> </td>
+                            <td> {{employeeBasicInfo.birth_place }}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Birth Registration Number</span> </td>
+                            <td> {{employeeBasicInfo.birth_reg_no}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Nationality</span> </td>
+                            <td> {{employeeBasicInfo.nationality}}</td>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Dual Nationality </span></td>
+                            <td> {{employeeBasicInfo.dual_nationality?employeeBasicInfo.dual_nationality : 'N/A'}}</td>
+                        </tr>
+                    </table>
+
+                </div>
+            </fuse-card>
+            <fuse-card class="flex px-3 py-6 mb-2">
+                <div class="flex flex-col w-6/12">
+                    <table>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Father Name  </span></td>
+                            <td> {{employeeBasicInfo.father_name}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md">Father Name Bangla  </span></td>
+                            <td> {{employeeBasicInfo.father_name_bengali?employeeBasicInfo.father_name_bengali : 'N/A'}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Mother Name  </span></td>
+                            <td> {{employeeBasicInfo.mother_name}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Mother Name Bangla  </span></td>
+                            <td> {{employeeBasicInfo.mother_name_bengali?employeeBasicInfo.mother_name_bengali : 'N/A'}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Maritial Status </span></td>
+                            <td> {{employeeBasicInfo.maritual_status}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Spouse Name   </span></td>
+                            <td> {{employeeBasicInfo.spouse_name}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-secondary text-md"> Spouse Name Bangla  </span></td>
+                            <td> {{employeeBasicInfo.spouse_name_bengali?employeeBasicInfo.spouse_name_bengali : 'N/A'}}</td>
+                        </tr>
+                    </table>
+                  
+
+                </div>
+                <div class="flex flex-col w-6/12">
+                   <table>
+                       <tr>
+                           <td><span class="text-secondary text-md">Passport Number </span></td>
+                           <td>  {{employeeBasicInfo.passport_no?employeeBasicInfo.passport_no : 'N/A'}}</td>
+                       </tr>
+                       <tr>
+                           <td> <span class="text-secondary text-md">Passport Issue Date</span> </td>
+                           <td>  {{employeeBasicInfo.passport_issue_date | date}}</td>
+                       </tr>
+                       <tr>
+                           <td><span class="text-secondary text-md">Passport Issue Place </span></td>
+                           <td>  {{employeeBasicInfo.passport_issue_place?employeeBasicInfo.passport_issue_place : 'N/A'}}</td>
+                       </tr>
+                       <tr>
+                           <td><span class="text-secondary text-md">Driving License Number </span></td>
+                           <td>  {{employeeBasicInfo.driving_license_no? employeeBasicInfo.driving_license_no : 'N/A'}}</td>
+                       </tr>
+                       <tr>
+                           <td> <span class="text-secondary text-md">Driving License Issue Date </span> </td>
+                           <td>  {{employeeBasicInfo.driving_license_issue_date|date}}</td>
+                       </tr>
+                       <tr>
+                           <td><span class="text-secondary text-md">Driving License Issue Place</span></td>
+                           <td>  {{employeeBasicInfo.driving_license_issue_place?employeeBasicInfo.driving_license_issue_place:'N/A'}}</td>
+                       </tr>
+                   </table>
+                </div>
+               
+            </fuse-card>
+            <fuse-card class="flex px-3 py-6 mb-2">
+                <div>
+                    <p><span class="text-secondary text-md">Remarks</span></p>
+                    {{employeeBasicInfo.remark?employeeBasicInfo.remark:'N/A'}}
+                </div>
+            </fuse-card>
+           
+        </div>
+    </div>
+
+
+
+</div>

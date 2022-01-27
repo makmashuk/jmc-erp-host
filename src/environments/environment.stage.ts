@@ -1,0 +1,15 @@
+export const environment = {
+    production: false,
+    COMPANY: 'https://erp-api.jmc.technology/company',
+    LOCATION: 'https://erp-api.jmc.technology/location',
+    UNIT: 'https://erp-api.jmc.technology/unit',
+    DIVISION: 'https://erp-api.jmc.technology/division',
+    DEPARTMENT: 'https://erp-api.jmc.technology/department',
+    SECTION: 'https://erp-api.jmc.technology/section',
+    SUBSECTION: 'https://erp-api.jmc.technology/sub-section',
+    DESIGNATION_GROUP: 'https://erp-api.jmc.technology/designation-group',
+    DESIGNATION: 'https://erp-api.jmc.technology/designation',
+    SUBDESIGNATION: 'https://erp-api.jmc.technology/sub-designation',
+    PAYROLL: 'https://erp-api.jmc.technology/payroll',
+    SUBPAYROLL: 'https://erp-api.jmc.technology/sub-payroll',
+};
